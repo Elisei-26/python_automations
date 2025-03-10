@@ -69,7 +69,7 @@ except Exception as e:
 # Path to your CSV file
 input_file = "email_addresses.tsv"
 output_file = "sent_emails_status.tsv"
-pdf_path = r"C:\CURS1.pdf"
+pdf_path = r"C:\Automatizare_Email-uri_Demo.pdf"
 
 # Open and read the CSV file
 with open(input_file, mode='r') as infile, open(output_file, mode="w", newline="") as outfile:
@@ -80,34 +80,37 @@ with open(input_file, mode='r') as infile, open(output_file, mode="w", newline="
     for row in csv_reader:
         try:
             button_write_email = WebDriverWait(driver, 10).until(
-                EC.visibility_of_element_located((By.XPATH, '/html/body/div[7]/div[3]/div/div[2]/div[2]/div[1]/div[1]/div/div'))
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(text(), 'Compose')]"))
             )
             button_write_email.click()
 
+
             input_to = WebDriverWait(driver, 10).until(
-                EC.visibility_of_element_located((By.XPATH, '/html/body/div[21]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[2]/div/div/div[4]/table/tbody/tr/td[2]/form/div[1]/table/tbody/tr[1]/td[2]/div/div/div[1]/div/div[3]/div/div/div/div/div/input'))
+                EC.visibility_of_element_located((By.XPATH, "//input[@aria-label='To recipients']"))
             )
             email = row[0]
             input_to.send_keys(email)
 
-            # time.sleep(10000)
+
             input_subject = WebDriverWait(driver, 10).until(
-                EC.visibility_of_element_located((By.XPATH, '/html/body/div[21]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[2]/div/div/div[4]/table/tbody/tr/td[2]/form/div[3]/input'))
+                EC.visibility_of_element_located((By.XPATH, "//input[@aria-label='Subject']"))
             )
-            email_subject = "Hello"
+            email_subject = "Demo automatizare"
             input_subject.send_keys(email_subject)
 
+
             input_email_body = WebDriverWait(driver, 10).until(
-                EC.visibility_of_element_located((By.XPATH, '/html/body/div[21]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[2]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[1]/td/div/div[2]/div[2]/div[3]/div/table/tbody/tr/td[2]/div[2]/div/div[1]'))
+                EC.visibility_of_element_located((By.XPATH, "//div[@aria-label='Message Body']"))
             )
-            email_body = "Today is Marti"
+            email_body = "Salutare\n\nExplorați eficiența unui proces automatizat de trimitere a email-urilor, economisind timp și resurse prețioase."
             input_email_body.send_keys(email_body)
 
+
             button_attach_pdf = WebDriverWait(driver, 10).until(
-                EC.visibility_of_element_located((By.XPATH,
-                  '/html/body/div[21]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[2]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/div/div[4]/table/tbody/tr/td[4]/div/div[1]/div/div/div'))
+                EC.visibility_of_element_located((By.XPATH, "//div[@aria-label='Attach files']"))
             )
             button_attach_pdf.click()
+
 
             # Type the file path and press Enter
             time.sleep(1)
@@ -115,11 +118,12 @@ with open(input_file, mode='r') as infile, open(output_file, mode="w", newline="
             time.sleep(1)
             pyautogui.press("enter")
 
-            button_send = WebDriverWait(driver, 10).until(
-                EC.visibility_of_element_located((By.XPATH, '/html/body/div[21]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[2]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/div/div[4]/table/tbody/tr/td[1]/div/div[2]/div[1]'))
+
+            send_button = WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, "//div[contains(@data-tooltip, 'Send')]"))
             )
             time.sleep(5)
-            button_send.click()
+            send_button.click()
         except Exception as e:
             csv_writer.writerow(row)
             print("Error sending email")
